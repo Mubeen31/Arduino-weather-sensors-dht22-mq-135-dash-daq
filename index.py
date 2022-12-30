@@ -94,7 +94,7 @@ def update_confirmed(n_intervals):
                      DateTime DESC LIMIT 1
                      """
         df = pd1.read_gbq(df_sql, project_id=project_id, dialect='standard', credentials=credentials)
-        get_temp = df['OutsideTemperature'].tail(1).iloc[0]
+        get_temp = df['OutsideTemperature'].head(1).iloc[0]
         return get_temp
 
 
@@ -114,7 +114,7 @@ def update_confirmed(n_intervals):
                      DateTime DESC LIMIT 1
                      """
         df = pd1.read_gbq(df_sql, project_id=project_id, dialect='standard', credentials=credentials)
-        get_hum = df['OutsideHumidity'].tail(1).iloc[0]
+        get_hum = df['OutsideHumidity'].head(1).iloc[0]
         return get_hum
 
 
