@@ -1,0 +1,89 @@
+body {
+  background-color: #1a1a1a;
+  margin: 0;
+}
+
+.title_image {
+  display: flex;
+  flex-direction: row;
+}
+
+.title_text {
+  display: flex;
+  flex-direction: row;
+  color: white;
+  font-weight: bold;
+  font-family: sans-serif;
+}
+
+.title_row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+}
+
+.bg_title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #404040;
+  border-bottom: 1px solid #808080;
+  height: 40px;
+}
+
+.chart_value {
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+}
+
+.gauge_chart_column {
+  display: flex;
+  flex-direction: column;
+}
+
+.gauge_chart {
+  display: flex;
+  background-color: #404040;
+  width: 450px;
+  height: 600px;
+  border: 1px solid #808080;
+  justify-content: center;
+}
+
+.line_chart_layout {
+  width: 500px;
+  height: 300px;
+}
+
+.line_chart_column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.line_chart {
+  background-color: #404040;
+  width: 575px;
+  height: 600px;
+  border: 1px solid #808080;
+}
+
+.chart_row {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.gauge_value {
+  display: flex;
+  flex-direction: row;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 30px;
+  font-family: sans-serif;
+  margin-top: -110px;
+}
