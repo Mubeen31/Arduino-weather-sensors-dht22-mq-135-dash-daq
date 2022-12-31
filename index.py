@@ -7,15 +7,18 @@ from google.oauth2 import service_account
 import pandas_gbq as pd1
 import plotly.graph_objs as go
 import dash_daq as daq
+import pandas as pd
 
+meta_tags = [{"name": "viewport", "content": "width=device-width"}]
+external_stylesheets = [meta_tags]
 
-app = dash.Dash(__name__,)
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 server = app.server
 
 app.layout = html.Div([
 
     dcc.Interval(id='update_value',
-                 interval=1 * 11000,
+                 interval=1 * 1000,
                  n_intervals=0),
 
     html.Div([
@@ -31,51 +34,45 @@ app.layout = html.Div([
 
     html.Div([
         html.Div([
+            html.Div([
+                daq.Gauge(id='daq_gauge1',
+                          showCurrentValue=True,
+                          units='°C',
+                          value=0,
+                          label='Temperature',
+                          style={'color': 'white',
+                                 'fontFamily': 'sans-serif',
+                                 'fontWeight': 'bold'},
+                          max=20,
+                          min=0,
+                          color='#1EEC11')
+            ], className='chart_value1 twelve columns'),
 
             html.Div([
-                html.Div([
-                    daq.Gauge(id='daq_gauge1',
-                              showCurrentValue=True,
-                              units='°C',
-                              value=0,
-                              label='Temperature',
-                              style={'color': 'white',
-                                     'fontFamily': 'sans-serif',
-                                     'fontWeight': 'bold'},
-                              max=20,
-                              min=0,
-                              color='#1EEC11')
-                ], className='chart_value'),
-
-                html.Div([
-                    daq.Gauge(id='daq_gauge2',
-                              showCurrentValue=True,
-                              units='%',
-                              value=0,
-                              label='Humidity',
-                              style={'color': 'white',
-                                     'fontFamily': 'sans-serif',
-                                     'fontWeight': 'bold'},
-                              max=100,
-                              min=0,
-                              color='#DFFF00')
-                ], className='chart_value')
-            ], className='gauge_chart_column')
-
-        ], className='gauge_chart'),
+                daq.Gauge(id='daq_gauge2',
+                          showCurrentValue=True,
+                          units='%',
+                          value=0,
+                          label='Humidity',
+                          style={'color': 'white',
+                                 'fontFamily': 'sans-serif',
+                                 'fontWeight': 'bold'},
+                          max=100,
+                          min=0,
+                          color='#DFFF00')
+            ], className='chart_value2 twelve columns')
+        ], className='gauge_chart four columns'),
 
         html.Div([
-            html.Div([
-                dcc.Graph(id='line_chart1',
-                          config={'displayModeBar': False},
-                          className='line_chart_layout'),
-                dcc.Graph(id='line_chart2',
-                          config={'displayModeBar': False},
-                          className='line_chart_layout'),
-            ], className='line_chart_column')
-        ], className='line_chart')
-    ], className='chart_row')
-])
+            dcc.Graph(id='line_chart1',
+                      config={'displayModeBar': False},
+                      className='line_chart_layout twelve columns'),
+            dcc.Graph(id='line_chart2',
+                      config={'displayModeBar': False},
+                      className='line_chart_layout twelve columns'),
+        ], className='line_chart four columns')
+    ], className='row chart_row')
+], id='mainContainer', style={'display': 'flex', 'flex-direction': 'column'})
 
 
 @app.callback(Output('daq_gauge1', 'value'),
@@ -84,16 +81,17 @@ def update_confirmed(n_intervals):
     if n_intervals == 0:
         raise PreventUpdate
     else:
-        credentials = service_account.Credentials.from_service_account_file('weatherdata1.json')
-        project_id = 'weatherdata1'
-        df_sql = f"""SELECT
-                     OutsideTemperature
-                     FROM
-                     `weatherdata1.WeatherSensorsData1.SensorsData1`
-                     ORDER BY
-                     DateTime DESC LIMIT 1
-                     """
-        df = pd1.read_gbq(df_sql, project_id=project_id, dialect='standard', credentials=credentials)
+        # credentials = service_account.Credentials.from_service_account_file('weatherdata1.json')
+        # project_id = 'weatherdata1'
+        # df_sql = f"""SELECT
+        #              OutsideTemperature
+        #              FROM
+        #              `weatherdata1.WeatherSensorsData1.SensorsData1`
+        #              ORDER BY
+        #              DateTime DESC LIMIT 1
+        #              """
+        # df = pd1.read_gbq(df_sql, project_id=project_id, dialect='standard', credentials=credentials)
+        df = pd.read_csv('data.csv')
         get_temp = df['OutsideTemperature'].head(1).iloc[0]
         return get_temp
 
@@ -104,16 +102,17 @@ def update_confirmed(n_intervals):
     if n_intervals == 0:
         raise PreventUpdate
     else:
-        credentials = service_account.Credentials.from_service_account_file('weatherdata1.json')
-        project_id = 'weatherdata1'
-        df_sql = f"""SELECT
-                     OutsideHumidity
-                     FROM
-                     `weatherdata1.WeatherSensorsData1.SensorsData1`
-                     ORDER BY
-                     DateTime DESC LIMIT 1
-                     """
-        df = pd1.read_gbq(df_sql, project_id=project_id, dialect='standard', credentials=credentials)
+        # credentials = service_account.Credentials.from_service_account_file('weatherdata1.json')
+        # project_id = 'weatherdata1'
+        # df_sql = f"""SELECT
+        #              OutsideHumidity
+        #              FROM
+        #              `weatherdata1.WeatherSensorsData1.SensorsData1`
+        #              ORDER BY
+        #              DateTime DESC LIMIT 1
+        #              """
+        # df = pd1.read_gbq(df_sql, project_id=project_id, dialect='standard', credentials=credentials)
+        df = pd.read_csv('data.csv')
         get_hum = df['OutsideHumidity'].head(1).iloc[0]
         return get_hum
 
@@ -124,17 +123,18 @@ def line_chart_values(n_intervals):
     if n_intervals == 0:
         raise PreventUpdate
     else:
-        credentials = service_account.Credentials.from_service_account_file('weatherdata1.json')
-        project_id = 'weatherdata1'
-        df_sql = f"""SELECT
-                     DateTime,
-                     OutsideTemperature
-                     FROM
-                     `weatherdata1.WeatherSensorsData1.SensorsData1`
-                     ORDER BY
-                     DateTime DESC LIMIT 15
-                     """
-        df = pd1.read_gbq(df_sql, project_id=project_id, dialect='standard', credentials=credentials)
+        # credentials = service_account.Credentials.from_service_account_file('weatherdata1.json')
+        # project_id = 'weatherdata1'
+        # df_sql = f"""SELECT
+        #              DateTime,
+        #              OutsideTemperature
+        #              FROM
+        #              `weatherdata1.WeatherSensorsData1.SensorsData1`
+        #              ORDER BY
+        #              DateTime DESC LIMIT 15
+        #              """
+        # df = pd1.read_gbq(df_sql, project_id=project_id, dialect='standard', credentials=credentials)
+        df = pd.read_csv('data.csv')
 
     return {
         'data': [go.Scatter(
@@ -156,7 +156,7 @@ def line_chart_values(n_intervals):
             paper_bgcolor='rgba(255, 255, 255, 0)',
             title={
                 'text': '<b>Temperature (°C)</b>',
-                'y': 0.90,
+                'y': 0.95,
                 'x': 0.5,
                 'xanchor': 'center',
                 'yanchor': 'top'},
@@ -211,17 +211,18 @@ def line_chart_values(n_intervals):
     if n_intervals == 0:
         raise PreventUpdate
     else:
-        credentials = service_account.Credentials.from_service_account_file('weatherdata1.json')
-        project_id = 'weatherdata1'
-        df_sql = f"""SELECT
-                     DateTime,
-                     OutsideHumidity
-                     FROM
-                     `weatherdata1.WeatherSensorsData1.SensorsData1`
-                     ORDER BY
-                     DateTime DESC LIMIT 15
-                     """
-        df = pd1.read_gbq(df_sql, project_id=project_id, dialect='standard', credentials=credentials)
+        # credentials = service_account.Credentials.from_service_account_file('weatherdata1.json')
+        # project_id = 'weatherdata1'
+        # df_sql = f"""SELECT
+        #              DateTime,
+        #              OutsideHumidity
+        #              FROM
+        #              `weatherdata1.WeatherSensorsData1.SensorsData1`
+        #              ORDER BY
+        #              DateTime DESC LIMIT 15
+        #              """
+        # df = pd1.read_gbq(df_sql, project_id=project_id, dialect='standard', credentials=credentials)
+        df = pd.read_csv('data.csv')
 
     return {
         'data': [go.Scatter(
@@ -243,7 +244,7 @@ def line_chart_values(n_intervals):
             paper_bgcolor='rgba(255, 255, 255, 0)',
             title={
                 'text': '<b>Humidity (%)</b>',
-                'y': 0.90,
+                'y': 0.95,
                 'x': 0.5,
                 'xanchor': 'center',
                 'yanchor': 'top'},
