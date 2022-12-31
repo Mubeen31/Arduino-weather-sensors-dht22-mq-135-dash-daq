@@ -36,10 +36,11 @@ body {
 
 .chart_value1 {
   margin-top: 10px;
+  height: 300px;
 }
 
 .chart_value2 {
-  margin-top: -20px;
+  height: 300px;
 }
 
 .gauge_chart {
