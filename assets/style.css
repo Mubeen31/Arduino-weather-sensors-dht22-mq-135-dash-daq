@@ -20,10 +20,42 @@ body {
   flex-direction: row;
   align-items: center;
   gap: 5px;
+  width: 400px;
+  justify-content: center;
+}
+
+.location {
+  display: flex;
+  flex-direction: row;
+  color: white;
+  font-family: sans-serif;
+  width: 300px;
+}
+
+.date_id {
+  display: flex;
+  flex-direction: row;
+}
+
+.date_format {
+  display: flex;
+  flex-direction: row;
+  color: white;
+  font-family: sans-serif;
+}
+
+.title_location_row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .bg_title {
   display: flex;
+  flex-wrap: wrap;
+  flex: 1;
   align-items: center;
   justify-content: center;
   background-color: #404040;
