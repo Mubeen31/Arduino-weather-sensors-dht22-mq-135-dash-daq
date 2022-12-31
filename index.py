@@ -78,54 +78,54 @@ app.layout = html.Div([
 @app.callback(Output('daq_gauge1', 'value'),
               [Input('update_value', 'n_intervals')])
 def update_confirmed(n_intervals):
-    if n_intervals == 0:
-        raise PreventUpdate
-    else:
-        credentials = service_account.Credentials.from_service_account_file('weatherdata1.json')
-        project_id = 'weatherdata1'
-        df_sql = f"""SELECT
+    # if n_intervals == 0:
+    #     raise PreventUpdate
+    # else:
+    credentials = service_account.Credentials.from_service_account_file('weatherdata1.json')
+    project_id = 'weatherdata1'
+    df_sql = f"""SELECT
                      OutsideTemperature
                      FROM
                      `weatherdata1.WeatherSensorsData1.SensorsData1`
                      ORDER BY
                      DateTime DESC LIMIT 1
                      """
-        df = pd1.read_gbq(df_sql, project_id=project_id, dialect='standard', credentials=credentials)
-        # df = pd.read_csv('data.csv')
-        get_temp = df['OutsideTemperature'].head(1).iloc[0]
-        return get_temp
+    df = pd1.read_gbq(df_sql, project_id=project_id, dialect='standard', credentials=credentials)
+    # df = pd.read_csv('data.csv')
+    get_temp = df['OutsideTemperature'].head(1).iloc[0]
+    return get_temp
 
 
 @app.callback(Output('daq_gauge2', 'value'),
               [Input('update_value', 'n_intervals')])
 def update_confirmed(n_intervals):
-    if n_intervals == 0:
-        raise PreventUpdate
-    else:
-        credentials = service_account.Credentials.from_service_account_file('weatherdata1.json')
-        project_id = 'weatherdata1'
-        df_sql = f"""SELECT
+    # if n_intervals == 0:
+    #     raise PreventUpdate
+    # else:
+    credentials = service_account.Credentials.from_service_account_file('weatherdata1.json')
+    project_id = 'weatherdata1'
+    df_sql = f"""SELECT
                      OutsideHumidity
                      FROM
                      `weatherdata1.WeatherSensorsData1.SensorsData1`
                      ORDER BY
                      DateTime DESC LIMIT 1
                      """
-        df = pd1.read_gbq(df_sql, project_id=project_id, dialect='standard', credentials=credentials)
-        # df = pd.read_csv('data.csv')
-        get_hum = df['OutsideHumidity'].head(1).iloc[0]
-        return get_hum
+    df = pd1.read_gbq(df_sql, project_id=project_id, dialect='standard', credentials=credentials)
+    # df = pd.read_csv('data.csv')
+    get_hum = df['OutsideHumidity'].head(1).iloc[0]
+    return get_hum
 
 
 @app.callback(Output('line_chart1', 'figure'),
               [Input('update_value', 'n_intervals')])
 def line_chart_values(n_intervals):
-    if n_intervals == 0:
-        raise PreventUpdate
-    else:
-        credentials = service_account.Credentials.from_service_account_file('weatherdata1.json')
-        project_id = 'weatherdata1'
-        df_sql = f"""SELECT
+    # if n_intervals == 0:
+    #     raise PreventUpdate
+    # else:
+    credentials = service_account.Credentials.from_service_account_file('weatherdata1.json')
+    project_id = 'weatherdata1'
+    df_sql = f"""SELECT
                      DateTime,
                      OutsideTemperature
                      FROM
@@ -133,8 +133,8 @@ def line_chart_values(n_intervals):
                      ORDER BY
                      DateTime DESC LIMIT 15
                      """
-        df = pd1.read_gbq(df_sql, project_id=project_id, dialect='standard', credentials=credentials)
-        # df = pd.read_csv('data.csv')
+    df = pd1.read_gbq(df_sql, project_id=project_id, dialect='standard', credentials=credentials)
+    # df = pd.read_csv('data.csv')
 
     return {
         'data': [go.Scatter(
@@ -208,12 +208,12 @@ def line_chart_values(n_intervals):
 @app.callback(Output('line_chart2', 'figure'),
               [Input('update_value', 'n_intervals')])
 def line_chart_values(n_intervals):
-    if n_intervals == 0:
-        raise PreventUpdate
-    else:
-        credentials = service_account.Credentials.from_service_account_file('weatherdata1.json')
-        project_id = 'weatherdata1'
-        df_sql = f"""SELECT
+    # if n_intervals == 0:
+    #     raise PreventUpdate
+    # else:
+    credentials = service_account.Credentials.from_service_account_file('weatherdata1.json')
+    project_id = 'weatherdata1'
+    df_sql = f"""SELECT
                      DateTime,
                      OutsideHumidity
                      FROM
@@ -221,8 +221,8 @@ def line_chart_values(n_intervals):
                      ORDER BY
                      DateTime DESC LIMIT 15
                      """
-        df = pd1.read_gbq(df_sql, project_id=project_id, dialect='standard', credentials=credentials)
-        # df = pd.read_csv('data.csv')
+    df = pd1.read_gbq(df_sql, project_id=project_id, dialect='standard', credentials=credentials)
+    # df = pd.read_csv('data.csv')
 
     return {
         'data': [go.Scatter(
