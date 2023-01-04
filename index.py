@@ -140,11 +140,11 @@ def update_confirmed(n_intervals):
 
 
 @app.callback(Output('line_chart1', 'figure'),
-              [Input('update_value1', 'n_intervals')])
+              [Input('update_value', 'n_intervals')])
 def line_chart_values(n_intervals):
     credentials = service_account.Credentials.from_service_account_file('weatherdata1.json')
     project_id = 'weatherdata1'
-    df_sql = f"""SELECT OutsideTemperature
+    df_sql = f"""SELECT DateTime, OutsideTemperature
                                      FROM
                                      `weatherdata1.WeatherSensorsData1.SensorsData1`
                                      ORDER BY
@@ -222,11 +222,11 @@ def line_chart_values(n_intervals):
 
 
 @app.callback(Output('line_chart2', 'figure'),
-              [Input('update_value1', 'n_intervals')])
+              [Input('update_value', 'n_intervals')])
 def line_chart_values(n_intervals):
     credentials = service_account.Credentials.from_service_account_file('weatherdata1.json')
     project_id = 'weatherdata1'
-    df_sql = f"""SELECT OutsideHumidity
+    df_sql = f"""SELECT DateTime, OutsideHumidity
                                          FROM
                                          `weatherdata1.WeatherSensorsData1.SensorsData1`
                                          ORDER BY
